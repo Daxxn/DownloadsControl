@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadsManager", "DownloadsManager.csproj", "{9C3829E6-FE26-4D1B-9DC2-979E3647DD72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonReaderLibraryFW", "..\..\Libraries\JsonReaderLibraryFW\JsonReaderLibraryFW\JsonReaderLibraryFW.csproj", "{97EB8DB5-5952-4078-961E-2E4FA2317B05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonReaderLibraryFW", "..\..\..\Libraries\JsonReaderLibraryFW\JsonReaderLibraryFW\JsonReaderLibraryFW.csproj", "{97EB8DB5-5952-4078-961E-2E4FA2317B05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

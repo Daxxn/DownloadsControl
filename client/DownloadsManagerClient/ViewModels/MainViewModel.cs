@@ -1,23 +1,24 @@
-﻿using MVVMLibrary;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using DownloadsManagerClient.Models.Settings;
+using MVVMLibrary;
 
 namespace DownloadsManagerClient.ViewModels
 {
    public class MainViewModel : Model
    {
       #region - Fields & Properties
-
+      private GlobalSettingsModel _globalSettings;
+      private FilterSettingsModel _filterSettings;
       #region - Commands
 
       #endregion
       #endregion
 
       #region - Constructors
-      public MainViewModel() { }
+      public MainViewModel()
+      {
+         GlobalSettings = new();
+         FilterSettings = new();
+      }
       #endregion
 
       #region - Methods
@@ -28,7 +29,25 @@ namespace DownloadsManagerClient.ViewModels
       #endregion
 
       #region - Full Properties
+      public GlobalSettingsModel GlobalSettings
+      {
+         get => _globalSettings;
+         set
+         {
+            _globalSettings = value;
+            OnPropertyChanged();
+         }
+      }
 
+      public FilterSettingsModel FilterSettings
+      {
+         get => _filterSettings;
+         set
+         {
+            _filterSettings = value;
+            OnPropertyChanged();
+         }
+      }
       #endregion
    }
 }

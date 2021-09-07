@@ -4,9 +4,253 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DownloadsManagerClient"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:models="clr-namespace:DownloadsManagerClient.Models"
+        xmlns:extensions="clr-namespace:DownloadsManagerClient.Extensions"
+        mc:Ignorable="d" Style="{StaticResource MainWindow}"
+        Title="Downloads Folder Manager" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Border Grid.Column="0" Style="{StaticResource GlobalsBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0">
+                    <Grid Grid.IsSharedSizeScope="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="title"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0">Update Interval</TextBlock>
+                                <TextBox Text="{Binding Path=GlobalSettings.Timerinterval}" Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="title"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0">Filters File Path</TextBlock>
+                                <TextBox Text="{Binding Path=GlobalSettings.FilterSettingsPath}" Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="title"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0">Log File Path</TextBlock>
+                                <TextBox Text="{Binding Path=GlobalSettings.LogFilePath}" Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="title"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0">Verbose Logging</TextBlock>
+                                <CheckBox IsChecked="{Binding Path=GlobalSettings.Verboselogging}" Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="title"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0">Log Level</TextBlock>
+                                <ComboBox
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Source={extensions:EnumBinding {x:Type models:LogLevel}}}"
+                                    SelectedItem="{Binding Path=GlobalSettings.LogLevel}"
+                                />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="2,4" Command="{Binding Path=SaveGlobalCmd}">Save</Button>
+                    <Button Grid.Column="1" Margin="2,4" Command="{Binding Path=OpenGlobalCmd}">open</Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <GridSplitter Grid.Column="1"/>
+
+        <Border Grid.Column="2" Style="{StaticResource FiltersBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Command="{Binding Path=AddFilterCmd}">Add Filter</Button>
+                                <Button Grid.Column="0" Command="{Binding Path=RemoveFilterCmd}">Remove Filter</Button>
+                            </Grid>
+                        </Border>
+
+                        <ListView
+                            ItemsSource="{Binding Path=FilterSettings.Filters}"
+                            SelectedItem="{Binding Path=SelectedFilter}"
+                            Grid.Row="1"
+                            Grid.IsSharedSizeScope="True"
+                        >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="{StaticResource Background}"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="itemTitle"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Border Grid.Row="0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition SharedSizeGroup="itemTitle"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0">Type</TextBlock>
+                                                    <TextBox Grid.Column="1" Text="{Binding Path=Type}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Grid.Row="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition SharedSizeGroup="itemTitle"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0">Description</TextBlock>
+                                                    <TextBox Grid.Column="1" Text="{Binding Path=Description}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Grid.Row="2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition SharedSizeGroup="itemTitle"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0">Destination</TextBlock>
+                                                    <TextBox Grid.Column="1" Text="{Binding Path=Destination}"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Grid.Row="3">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0">Extensions</TextBlock>
+                                                    <Border Grid.Row="1">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Button Grid.Row="0" x:Name="AddExtension">Add Ext</Button>
+                                                            <Button Grid.Row="1" x:Name="RemoveExtension">Remove Ext</Button>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <ListView Grid.Row="2" ItemsSource="{Binding Path=Extensions}">
+                                                        <ListView.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Background="{StaticResource Background}"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ListView.ItemsPanel>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Grid.Column="1" Text="{Binding Path=Value}"/>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="2,4" Command="{Binding Path=SaveFilterCmd}">Save</Button>
+                    <Button Grid.Column="1" Margin="2,4" Command="{Binding Path=OpenFilterCmd}">open</Button>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
