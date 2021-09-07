@@ -49,11 +49,29 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="1"/>
     </Style>
+
+    <Style TargetType="TextBox" x:Key="ExtBox">
+        <Setter Property="Background" Value="{StaticResource Theme.Secondary}"/>
+        <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="MinWidth" Value="80"/>
+    </Style>
     <!--#endregion-->
     
     <!--#region TextBlock-->
     <Style TargetType="TextBlock">
         <Setter Property="Margin" Value="4,0"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="FilterItemTitle">
+        <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="FiltersOnlyText">
+        <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="11"/>
     </Style>
     <!--#endregion-->
     

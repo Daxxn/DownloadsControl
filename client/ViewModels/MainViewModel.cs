@@ -8,6 +8,8 @@ namespace DownloadsManagerClient.ViewModels
       #region - Fields & Properties
       private GlobalSettingsModel _globalSettings;
       private FilterSettingsModel _filterSettings;
+
+      private bool _filtersOnlyMode;
       #region - Commands
 
       #endregion
@@ -45,6 +47,16 @@ namespace DownloadsManagerClient.ViewModels
          set
          {
             _filterSettings = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public bool FiltersOnlyMode
+      {
+         get { return _filtersOnlyMode; }
+         set
+         {
+            _filtersOnlyMode = value;
             OnPropertyChanged();
          }
       }

@@ -44,7 +44,6 @@ namespace DownloadsManagerClient.Models.Settings
       #endregion
 
       #region - Methods
-
       #endregion
 
       #region - Full Properties

@@ -14,6 +14,10 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
         <Border Grid.Column="0" Style="{StaticResource GlobalsBorder}">
             <Grid>
@@ -133,7 +137,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button Grid.Column="0" Command="{Binding Path=AddFilterCmd}">Add Filter</Button>
-                                <Button Grid.Column="0" Command="{Binding Path=RemoveFilterCmd}">Remove Filter</Button>
+                                <Button Grid.Column="1" Command="{Binding Path=RemoveFilterCmd}">Remove Filter</Button>
                             </Grid>
                         </Border>
 
@@ -142,20 +146,22 @@
                             SelectedItem="{Binding Path=SelectedFilter}"
                             Grid.Row="1"
                             Grid.IsSharedSizeScope="True"
+                            MinWidth="50"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Background="{StaticResource Background}"/>
+                                    <StackPanel
+                                        Background="{StaticResource Background}"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Stretch"
+                                    />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border>
                                         <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition SharedSizeGroup="itemTitle"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
@@ -170,7 +176,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Grid.Column="0">Type</TextBlock>
+                                                    <TextBlock Grid.Column="0" Style="{StaticResource FilterItemTitle}">Type</TextBlock>
                                                     <TextBox Grid.Column="1" Text="{Binding Path=Type}"/>
                                                 </Grid>
                                             </Border>
@@ -182,7 +188,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Grid.Column="0">Description</TextBlock>
+                                                    <TextBlock Grid.Column="0" Style="{StaticResource FilterItemTitle}">Description</TextBlock>
                                                     <TextBox Grid.Column="1" Text="{Binding Path=Description}"/>
                                                 </Grid>
                                             </Border>
@@ -194,7 +200,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Grid.Column="0">Destination</TextBlock>
+                                                    <TextBlock Grid.Column="0" Style="{StaticResource FilterItemTitle}">Destination</TextBlock>
                                                     <TextBox Grid.Column="1" Text="{Binding Path=Destination}"/>
                                                 </Grid>
                                             </Border>
@@ -207,20 +213,25 @@
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <TextBlock Grid.Row="0">Extensions</TextBlock>
+                                                    <TextBlock Grid.Row="0" Style="{StaticResource FilterItemTitle}">Extensions</TextBlock>
                                                     <Border Grid.Row="1">
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
 
-                                                            <Button Grid.Row="0" x:Name="AddExtension">Add Ext</Button>
-                                                            <Button Grid.Row="1" x:Name="RemoveExtension">Remove Ext</Button>
+                                                            <Button Grid.Column="0" x:Name="AddExtension">Add Ext</Button>
+                                                            <Button Grid.Column="1" x:Name="RemoveExtension">Remove Ext</Button>
                                                         </Grid>
                                                     </Border>
 
-                                                    <ListView Grid.Row="2" ItemsSource="{Binding Path=Extensions}">
+                                                    <ListView
+                                                        Grid.Row="2"
+                                                        x:Name="ExtensionList"
+                                                        ItemsSource="{Binding Path=Extensions}"
+                                                        SelectionChanged="ListView_SelectionChanged"
+                                                    >
                                                         <ListView.ItemsPanel>
                                                             <ItemsPanelTemplate>
                                                                 <StackPanel Background="{StaticResource Background}"/>
@@ -228,7 +239,7 @@
                                                         </ListView.ItemsPanel>
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <TextBox Grid.Column="1" Text="{Binding Path=Value}"/>
+                                                                <TextBox Style="{StaticResource ExtBox}" Grid.Column="1" Text="{Binding Path=Value}"/>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
                                                     </ListView>
@@ -241,15 +252,29 @@
                         </ListView>
                     </Grid>
                 </Border>
+            </Grid>
+        </Border>
 
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="2,4" Command="{Binding Path=SaveFilterCmd}">Save</Button>
-                    <Button Grid.Column="1" Margin="2,4" Command="{Binding Path=OpenFilterCmd}">open</Button>
-                </Grid>
+        <Border Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding Path=IsFiltersOnly}"
+                    ToolTip="Only Deal With Filters"
+                />
+                <Button Grid.Row="1" Grid.Column="0" Command="{Binding Path=SaveFilesCmd}">Save</Button>
+                <Button Grid.Row="1" Grid.Column="1" Command="{Binding Path=SaveFilesCmd}">Open</Button>
             </Grid>
         </Border>
     </Grid>
