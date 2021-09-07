@@ -77,9 +77,5 @@ namespace DownloadsManager.Models.Logger
          Loggers.Log(builder.ToString(), CurrentLogLevel);
       }
 #endregion
-
-#region - Full Properties
-
-#endregion
    }
 }
