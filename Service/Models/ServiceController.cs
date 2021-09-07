@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace DownloadsManager.Models
 {
-   class ServiceController : IServiceController
+   public class ServiceController : IServiceController
    {
       #region - Fields & Properties
       private IGlobalSettingsService GlobalSettingsService { get; }

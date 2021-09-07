@@ -23,8 +23,8 @@ namespace DownloadsManager.Models.Files
       public FileServiceMockup()
       {
          FileContainers = new List<IFileContainer>();
-         FilterSettingsService = Injector.InjectService<IFilterSettingsService, FilterSettingsService>();
-         LoggerService = Injector.InjectService<ILoggerService, LoggerService>();
+         FilterSettingsService = Injector.InjectService<IFilterSettingsService, FilterSettingsServiceMockup>();
+         LoggerService = Injector.InjectService<ILoggerService, LoggerServiceMockup>();
       }
       #endregion
 

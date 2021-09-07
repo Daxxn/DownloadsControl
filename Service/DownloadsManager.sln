@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadsManager", "Downloa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonReaderLibraryFW", "..\..\..\Libraries\JsonReaderLibraryFW\JsonReaderLibraryFW\JsonReaderLibraryFW.csproj", "{97EB8DB5-5952-4078-961E-2E4FA2317B05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{92D3965D-0126-4355-9610-63E08FFE965A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{97EB8DB5-5952-4078-961E-2E4FA2317B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97EB8DB5-5952-4078-961E-2E4FA2317B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97EB8DB5-5952-4078-961E-2E4FA2317B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D3965D-0126-4355-9610-63E08FFE965A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D3965D-0126-4355-9610-63E08FFE965A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D3965D-0126-4355-9610-63E08FFE965A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D3965D-0126-4355-9610-63E08FFE965A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

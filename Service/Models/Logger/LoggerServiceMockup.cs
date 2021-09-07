@@ -1,44 +1,28 @@
-﻿using DownloadsManager.Models.Settings.GlobalSettings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DownloadsManager.Models.Settings.GlobalSettings;
 
 namespace DownloadsManager.Models.Logger
 {
-   public enum LogLevel
-   {
-      Console = 0,
-      File = 1,
-   };
-
-   public class LoggerService : ILoggerService
+   public class LoggerServiceMockup : ILoggerService
    {
       #region - Fields & Properties
-      private IGlobalSettingsService GlobalSettings { get; }
-      private BaseLogger Loggers { get; set; }
+      private IGlobalSettingsService GlobalSettings { get;}
       public LogLevel CurrentLogLevel { get; set; }
       public bool VerboseLogging { get; set; }
+      private BaseLogger Loggers { get; set; }
       #endregion
 
       #region - Constructors
-      public LoggerService() => GlobalSettings =
-         Injector.InjectService<IGlobalSettingsService, GlobalSettingsService>();
+      public LoggerServiceMockup() =>
+         GlobalSettings =
+            Injector.InjectService<IGlobalSettingsService, GlobalSettingsServiceMockup>();
       #endregion
 
       #region - Methods
-      public void Start()
-      {
-         Loggers = new ConsoleLogger()
-            .SetNext(new FileLogger(GlobalSettings.Settings.LogFilePath));
-         CurrentLogLevel = GlobalSettings.Settings.LogLevel;
-         VerboseLogging = GlobalSettings.Settings.VerboseLogging;
-         Loggers.Start(GlobalSettings.Settings.LogFilePath, VerboseLogging);
-      }
-
-      public void Stop() => Loggers.Stop();
-
       public void Error(Exception error, string message = null)
       {
          StringBuilder builder = new StringBuilder($"Error{(message != null ? $" | Msg: {message}" : "")}");
@@ -76,6 +60,18 @@ namespace DownloadsManager.Models.Logger
          }
          Loggers.Log(builder.ToString(), CurrentLogLevel);
       }
-#endregion
+      public void Start()
+      {
+         Loggers = new ConsoleLogger();
+         CurrentLogLevel = GlobalSettings.Settings.LogLevel;
+         VerboseLogging = GlobalSettings.Settings.VerboseLogging;
+         Loggers.Start(GlobalSettings.Settings.LogFilePath, VerboseLogging);
+      }
+      public void Stop() => Loggers.Stop();
+      #endregion
+
+      #region - Full Properties
+
+      #endregion
    }
 }
