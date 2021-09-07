@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9C3829E6-FE26-4D1B-9DC2-979E3647DD72}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>DownloadsManager</RootNamespace>
+    <AssemblyName>DownloadsManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Mockup</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Topshelf, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>packages\Topshelf.4.3.0\lib\net452\Topshelf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Exceptions\MoveAggregateException.cs" />
+    <Compile Include="Models\Files\FileContainer.cs" />
+    <Compile Include="Models\Files\FileService.cs" />
+    <Compile Include="Models\Files\FileServiceMockup.cs" />
+    <Compile Include="Models\Files\IFileService.cs" />
+    <Compile Include="Models\Files\IFileContainer.cs" />
+    <Compile Include="Models\Filters\Filter.cs" />
+    <Compile Include="Models\Filters\FilterCollection.cs" />
+    <Compile Include="Models\Filters\Interfaces\IFilter.cs" />
+    <Compile Include="Models\Filters\Interfaces\IFilterCollection.cs" />
+    <Compile Include="Models\Injector.cs" />
+    <Compile Include="Models\IService.cs" />
+    <Compile Include="Models\IServiceController.cs" />
+    <Compile Include="Models\Logger\FileLogger.cs" />
+    <Compile Include="Models\Logger\LoggerImplementation\BaseLogger.cs" />
+    <Compile Include="Models\Logger\LoggerImplementation\ConsoleLogger.cs" />
+    <Compile Include="Models\Logger\Interfaces\ILoggerService.cs" />
+    <Compile Include="Models\Logger\LoggerService.cs" />
+    <Compile Include="Models\ServiceController.cs" />
+    <Compile Include="Models\Settings\FilterSettings\FilterSettingsModel.cs" />
+    <Compile Include="Models\Settings\FilterSettings\FilterSettingsService.cs" />
+    <Compile Include="Models\Settings\FilterSettings\Interfaces\IFilterSettingsModel.cs" />
+    <Compile Include="Models\Settings\FilterSettings\Interfaces\IFilterSettingsService.cs" />
+    <Compile Include="Models\Settings\GlobalSettings\GlobalSettingsModel.cs" />
+    <Compile Include="Models\Settings\GlobalSettings\GlobalSettingsService.cs" />
+    <Compile Include="Models\Settings\GlobalSettings\Interfaces\IGlobalSettingsModel.cs" />
+    <Compile Include="Models\Settings\GlobalSettings\Interfaces\IGlobalSettingsService.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\JsonReaderLibraryFW\JsonReaderLibraryFW\JsonReaderLibraryFW.csproj">
+      <Project>{97eb8db5-5952-4078-961e-2e4fa2317b05}</Project>
+      <Name>JsonReaderLibraryFW</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
