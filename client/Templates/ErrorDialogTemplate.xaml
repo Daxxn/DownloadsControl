@@ -1,0 +1,168 @@
+﻿<Window x:Class="DownloadsManagerClient.Templates.ErrorDialogTemplate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DownloadsManagerClient.Templates"
+        xmlns:templates="clr-namespace:DownloadsManagerClient.Templates"
+        mc:Ignorable="d"
+        x:Name="root"
+        Icon="{x:Null}"
+        Style="{StaticResource ErrorWindow}"
+        Title="ItFallDownGoBoom..." Height="Auto" Width="Auto">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Path=Error.Message, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0">Source</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Error.Source, Mode=OneWay, FallbackValue=No Source Found}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0">Error Code</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Error.HResult, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0">Target</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Error.TargetSite, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0">Stack Trace</TextBlock>
+                <templates:ConditionalControl Grid.Row="4" Grid.Column="1" Condition="{Binding Path=STParseFailure}">
+                    <templates:ConditionalControl.TrueTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=Error.StackTrace, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </templates:ConditionalControl.TrueTemplate>
+                    <templates:ConditionalControl.FalseTemplate>
+                        <DataTemplate>
+                            <ListView Grid.IsSharedSizeScope="True" Background="{StaticResource Theme.Error.Dark}" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=StackTrace.TraceList}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource Background.Error}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="titlllllle"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Line #</TextBlock>
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=LineNumber}"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Object Name</TextBlock>
+                                                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=ObjectName}"/>
+                                                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Object Path</TextBlock>
+                                                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=ObjectPath}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DataTemplate>
+                    </templates:ConditionalControl.FalseTemplate>
+                </templates:ConditionalControl>
+            </Grid>
+        </Border>
+
+        <Separator Grid.Row="1"/>
+
+        <Expander Grid.Row="2" ExpandDirection="Down">
+            <Expander.Header>
+                <TextBlock Style="{StaticResource InnerExceptionTitle}">Inner Exception</TextBlock>
+            </Expander.Header>
+            <templates:ConditionalControl Condition="{Binding Path=IsInnerError, UpdateSourceTrigger=PropertyChanged}">
+                <templates:ConditionalControl.TrueTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource InnerExceptionText}" Text="{Binding Path=Error.InnerException.Message, Mode=OneWay}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource InnerExceptionText}">Source</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource InnerExceptionText}" Text="{Binding Path=Error.InnerException.Source, Mode=OneWay, FallbackValue=No Source Found}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource InnerExceptionText}">Error Code</TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource InnerExceptionText}" Text="{Binding Path=Error.InnerException.HResult, Mode=OneWay}"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource InnerExceptionText}">Target</TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource InnerExceptionText}" Text="{Binding Path=Error.InnerException.TargetSite, Mode=OneWay}"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource InnerExceptionText}">Stack Trace</TextBlock>
+                            <templates:ConditionalControl Grid.Row="4" Grid.Column="1" Condition="{Binding Path=InnerSTParseFailure}">
+                                <templates:ConditionalControl.TrueTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=Error.InnerException.StackTrace, Mode=OneWay}"/>
+                                    </DataTemplate>
+                                </templates:ConditionalControl.TrueTemplate>
+                                <templates:ConditionalControl.FalseTemplate>
+                                    <DataTemplate>
+                                        <ListView Grid.IsSharedSizeScope="True" Width="Auto" Background="{StaticResource Theme.Error.Dark}" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=InnerStackTrace.TraceList}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Style="{StaticResource StackTraceItemBorder}" Background="{StaticResource Background.Error}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition SharedSizeGroup="titlllllle"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+
+                                                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Line #</TextBlock>
+                                                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=LineNumber}"/>
+                                                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Object Name</TextBlock>
+                                                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=ObjectName}"/>
+                                                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource ErrorStackTraceText}">Object Path</TextBlock>
+                                                            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ErrorStackTraceText}" Text="{Binding Path=ObjectPath}"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </DataTemplate>
+                                </templates:ConditionalControl.FalseTemplate>
+                            </templates:ConditionalControl>
+                        </Grid>
+                    </DataTemplate>
+                </templates:ConditionalControl.TrueTemplate>
+                <templates:ConditionalControl.FalseTemplate>
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource InnerExceptionText}">No Inner Exception</TextBlock>
+                    </DataTemplate>
+                </templates:ConditionalControl.FalseTemplate>
+            </templates:ConditionalControl>
+        </Expander>
+    </Grid>
+</Window>

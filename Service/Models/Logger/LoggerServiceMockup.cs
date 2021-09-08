@@ -69,9 +69,5 @@ namespace DownloadsManager.Models.Logger
       }
       public void Stop() => Loggers.Stop();
       #endregion
-
-      #region - Full Properties
-
-      #endregion
    }
 }

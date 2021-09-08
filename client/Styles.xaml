@@ -1,15 +1,35 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="Background" Color="#30303a"/>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:templates="clr-namespace:DownloadsManagerClient.Templates"
+                    >
+    <!--#region Theme Colors-->
+    <SolidColorBrush x:Key="Background.Main" Color="#30303a"/>
     <SolidColorBrush x:Key="Theme.Primary" Color="#353554"/>
     <SolidColorBrush x:Key="Theme.Secondary" Color="#515229"/>
+    <SolidColorBrush x:Key="Theme.Secondary.Clear" Color="#7F515229"/>
     <SolidColorBrush x:Key="Theme.Terciary" Color="#544535"/>
     <SolidColorBrush x:Key="Theme.Font" Color="#eee"/>
 
+    <SolidColorBrush x:Key="Background.Error" Color="#2C140C"/>
+    <SolidColorBrush x:Key="Theme.Error.Dark" Color="#5c2412"/>
+    <SolidColorBrush x:Key="Theme.Success.Dark" Color="#125c5a"/>
+    <SolidColorBrush x:Key="Theme.Warn.Dark" Color="#d4a825"/>
+    <SolidColorBrush x:Key="Theme.Error.Bright" Color="#d45125"/>
+    <SolidColorBrush x:Key="Theme.Success.Bright" Color="#25d4d4"/>
+    <SolidColorBrush x:Key="Theme.Warn.Bright" Color="#d4a825"/>
+    <!--#endregion-->
+
+    <!--#region Windows-->
     <Style TargetType="Window" x:Key="MainWindow">
-        <Setter Property="Background" Value="#30303a"/>
+        <Setter Property="Background" Value="{StaticResource Background.Main}"/>
         <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
     </Style>
+
+    <Style TargetType="Window" x:Key="ErrorWindow">
+        <Setter Property="Background" Value="{StaticResource Background.Error}"/>
+        <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
+    </Style>
+    <!--#endregion-->
 
     <!--#region Borders-->
     <Style TargetType="Border">
@@ -31,6 +51,12 @@
     <Style TargetType="Border" x:Key="FiltersBorder" BasedOn="{StaticResource MainBorder}">
         <Setter Property="Margin" Value="0,2,2,2"/>
         <Setter Property="Padding" Value="0,2,2,2"/>
+    </Style>
+
+    <Style TargetType="Border" x:Key="StackTraceItemBorder">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="{StaticResource Background.Error}"/>
     </Style>
     <!--#endregion-->
 
@@ -73,21 +99,32 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="11"/>
     </Style>
-    <!--#endregion-->
-    
-    <!--#region ComboBox-->
-    <!--<Style TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource Theme.Terciary}"/>
+
+    <Style TargetType="TextBlock" x:Key="PathText">
         <Setter Property="Foreground" Value="{StaticResource Theme.Font}"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Background="{StaticResource Background}"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="DockPanel.Background" Value="{StaticResource Theme.Secondary}"/>
-    </Style>-->
+        <Setter Property="Background" Value="{StaticResource Theme.Secondary.Clear}"/>
+        <Setter Property="Padding" Value="1.5"/>
+        <Setter Property="Margin" Value="1"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="InnerExceptionTitle" BasedOn="{StaticResource FilterItemTitle}">
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="InnerExceptionText" BasedOn="{StaticResource FilterItemTitle}">
+        <Setter Property="Padding" Value="1.5"/>
+        <Setter Property="Margin" Value="1"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="ErrorStackTraceText" BasedOn="{StaticResource FilterItemTitle}">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="MaxWidth" Value="600"/>
+        <Setter Property="LineHeight" Value="6"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Padding" Value="1.5"/>
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource Background.Error}"/>
+    </Style>
     <!--#endregion-->
 
     <Style TargetType="GridSplitter">
@@ -100,4 +137,56 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
     </Style>
+
+    <Style TargetType="Separator">
+        <Setter Property="Background" Value="{StaticResource Theme.Error.Bright}"/>
+    </Style>
+    
+    <!--#region Conditional Renderer-->
+    <Style TargetType="{x:Type templates:ConditionalControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type templates:ConditionalControl}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                    >
+                        <Grid>
+                            <ContentPresenter
+                                x:Name="FalseContentPresenter"
+                                Content="{TemplateBinding DataContext}"
+                                ContentTemplate="{TemplateBinding FalseTemplate}"
+                            />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Condition"
+                 Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type templates:ConditionalControl}">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                            >
+                                <Grid>
+                                    <ContentPresenter
+                                        x:Name="TrueContentPresenter"
+                                        Content="{TemplateBinding DataContext}"
+                                        ContentTemplate="{TemplateBinding TrueTemplate}"
+                                    />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--#endregion-->
 </ResourceDictionary>

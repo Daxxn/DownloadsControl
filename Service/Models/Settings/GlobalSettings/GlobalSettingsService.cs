@@ -23,8 +23,7 @@ namespace DownloadsManager.Models.Settings.GlobalSettings
       {
          try
          {
-            // ToDo: fix hard-coded path.
-            Settings = JsonReader.OpenJsonFile<GlobalSettingsModel>(@"C:\Users\Cody\Desktop\DownloadsManager\GlobalSettings.json");
+            Settings = JsonReader.OpenJsonFile<GlobalSettingsModel>(Properties.Settings.Default.GlobalSettingsFile);
 #if Mockup
             Settings.VerboseLogging = true;
             Settings.LogLevel = LogLevel.File;
